@@ -11,6 +11,7 @@ I hereby certify that this work is my own and none of it is the work of any othe
 
 .........{Andres Da Silva}.........
 ***************************************/
+package TestingArena;
 
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -19,8 +20,81 @@ import java.util.Scanner;
 import java.io.FileReader;
 import java.io.IOException;
 
-	
-public class daSilvaA_OSpgm2 
+class Error 
+{
+    private String hexNumber = "";
+    private String binaryNumber = "";
+    private long decimalNumber = 0l;
+    private long location = 0l;
+    
+    
+    public Error(Error error)
+    {
+        if (error != null)
+        {
+            this.hexNumber = error.hexNumber;
+            this.binaryNumber = error.binaryNumber;
+            this.decimalNumber = error.decimalNumber;
+            this.location = error.location;
+        }
+    }
+    
+    public Error(String hexNumber, String binaryNumber, long decimalNumber, long location)
+    {
+        this.hexNumber = hexNumber;
+        this.binaryNumber = binaryNumber;
+        this.decimalNumber = decimalNumber;
+        this.location = location;
+    }
+    
+    public void setHexNumber(String hexNumber)
+    {
+        this.hexNumber = hexNumber;
+    }
+    
+    public void setBinaryNumber(String binaryNumber)
+    {
+        this.binaryNumber = binaryNumber;
+    }
+    
+    public void setDecimalNumber(long decimalNumber)
+    {
+        this.decimalNumber = decimalNumber;
+    }
+    
+    public void setLocation(long location)
+    {
+        this.location = location;
+    }
+    
+    public String getHexNumber()
+    {
+        return hexNumber;
+    }
+    
+    public String getBinaryNumber()
+    {
+        return binaryNumber;
+    }
+    
+    public long getDecimalNumber()
+    {
+        return decimalNumber;
+    }
+    
+    public long getLocation()
+    {
+        return location;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return hexNumber + " = " + binaryNumber + " = " + decimalNumber + " = " + location;
+    }
+}
+
+public class daSilvaA_OSpgm2
 {
     /**
      * returns the chip location of the RAM error location
@@ -91,12 +165,12 @@ public class daSilvaA_OSpgm2
             if (x == 'F')
                 binary += "1111";
             else
-                System.out.printf("%s %c" , "Error: invalid input \"" + x + "\" is not a valid hex value")
+                System.out.printf("%s %c" , "Error: invalid input \"" + x + "\" is not a valid hex value");
         }	
             return binary;
     }
 	/**
-     * Recevies a binary value and converts it to a decimal value
+     * Receives a binary value and converts it to a decimal value
      * @param s is a string of binary
      */
     public static long getDecimal(String s)
@@ -119,9 +193,9 @@ public class daSilvaA_OSpgm2
     public static void main (String[] args)
     {
         List<String> list = new ArrayList <String>();    //Holds all the Hex input
+        ArrayList<Error> error = new ArrayList<>();
         long decimalNumber = 0l;
         String binaryNumber; //Both are the same binary string. Legacy code from previous iterations
-        String binaryNibble;
         long location = 0l; //Chip location
         int size = 0; //Size of input (3 hex strings. aka 3 lines)
 
@@ -146,13 +220,13 @@ public class daSilvaA_OSpgm2
         for (int i = 0; i < size; i++) //Loops through all the conversions per each individual. Could add results to an object and expand on it
         {		
             binaryNumber = getBinary(list.get(i));
-            binaryNibble = binaryNumber;
 		
-            decimalNumber = getDecimal(binaryNibble);
+            decimalNumber = getDecimal(binaryNumber);
 		
             location = getChip(decimalNumber);
-            System.out.printf("\n%s = %s = %d = %d", list.get(i), binaryNibble, decimalNumber, location);
+            new Error(list.get(i), binaryNumber, decimalNumber, location);
         }
+        System.out.println(error);
         System.out.printf("\n");
     }
  }
